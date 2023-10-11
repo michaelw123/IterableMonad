@@ -31,11 +31,11 @@ class SetMonad(IterableMonad):
         return SetMonad(set([item for monad in self.value for item in monad.value]))
 class DictMonad(IterableMonad):
     def  map(self, f:Callable):
-        return DictMonad((list)(map(f, self.value)))
+        return DictMonad({f({k:v}) for k, v in self.value.items()})
     def flatten(self):
         return DictMonad({k: v for monad in self.value for k, v in monad.value.items()})
 
-def list_upper(s:str) -> ListMonad:
+'''def list_upper(s:str) -> ListMonad:
     return ListMonad([s, s.upper()])
 # List
 x = 'abc'
@@ -59,3 +59,4 @@ print(y.value)
 # Dict
 x = {'a':1, 'b':2, 'c':3, 'd':4}
 print(DictMonad(x).flatMap(lambda key: DictMonad({key: x[key]+1})).value)
+'''
