@@ -12,6 +12,8 @@ class IterableMonad:
             return self.map(f).flatten()
         except:
             return IterableMonad(None)
+    def __eq__(self, other):
+        return  self.value == other.value
 
 
 class ListMonad(IterableMonad):
@@ -26,12 +28,12 @@ class TupleMonad(IterableMonad):
         return TupleMonad(tuple([item for monad in self.value for item in monad.value]))
 class SetMonad(IterableMonad):
     def  map(self, f:Callable):
-        return SetMonad((set)(map(f, self.value)))
+        return SetMonad((list)(map(f, self.value)))
     def flatten(self):
         return SetMonad(set([item for monad in self.value for item in monad.value]))
 class DictMonad(IterableMonad):
     def  map(self, f:Callable):
-        return DictMonad({f({k:v}) for k, v in self.value.items()})
+        return DictMonad([f({k:v}) for k, v in self.value.items()])
     def flatten(self):
         return DictMonad({k: v for monad in self.value for k, v in monad.value.items()})
 
