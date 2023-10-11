@@ -1,2 +1,2 @@
 # IterableMonad
-Monadic for Python Iterables
+Monadic implementation for Python Iterables
