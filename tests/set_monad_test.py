@@ -9,17 +9,17 @@ def g(a:int) :
 
 #left identity
 a = 2
-lhs = SetMonad({a}).flatMap(f)
+lhs = SetMonad({a}).flat_map(f)
 rhs = f(a)
 print(lhs == rhs)
 
 # right identity
-lhs=SetMonad({a}).flatMap(lambda x: SetMonad({x}))
+lhs=SetMonad({a}).flat_map(lambda x: SetMonad({x}))
 rhs=SetMonad({a})
 print(lhs == rhs)
 
 # associativity
 m = SetMonad([1, 2])
-lhs = m.flatMap(f).flatMap(g)
-rhs = m.flatMap(lambda x: f(x).flatMap(g))
+lhs = m.flat_map(f).flat_map(g)
+rhs = m.flat_map(lambda x: f(x).flat_map(g))
 print(lhs == rhs)

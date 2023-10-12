@@ -7,13 +7,14 @@ class IterableMonad:
             self.value = None
         else:
             self.value = value
-    def flatMap(self, f:  Callable) -> 'IterableMonad':
+    def flat_map(self, f:  Callable) -> 'IterableMonad':
         try:
             return self.map(f).flatten()
         except:
             return IterableMonad(None)
     def __eq__(self, other):
-        return  self.value == other.value
+        if isinstance(other, type(self)):
+            return self.value == other.value
 
 
 class ListMonad(IterableMonad):
@@ -36,29 +37,3 @@ class DictMonad(IterableMonad):
         return DictMonad([f({k:v}) for k, v in self.value.items()])
     def flatten(self):
         return DictMonad({k: v for monad in self.value for k, v in monad.value.items()})
-
-'''def list_upper(s:str) -> ListMonad:
-    return ListMonad([s, s.upper()])
-# List
-x = 'abc'
-y=ListMonad([x])
-z = y.flatMap(lambda a: ListMonad([a, a.upper()]))
-print(z.value)
-#left identity
-assert y.flatMap(lambda a: ListMonad([a, a.upper()])).value == list_upper(x).value
-
-
-# Tuple
-x = TupleMonad((1,2,3))
-y = x.flatMap(lambda a: TupleMonad((a,a))).flatMap(lambda a: TupleMonad((a*a,a*a)))
-print(y.value)
-
-# Set
-x = SetMonad(set([1,2,2,3]))
-y = x.flatMap(lambda a: SetMonad(set([a, a+1]))).flatMap(lambda a: SetMonad(set([a, a*a])))
-print(y.value)
-
-# Dict
-x = {'a':1, 'b':2, 'c':3, 'd':4}
-print(DictMonad(x).flatMap(lambda key: DictMonad({key: x[key]+1})).value)
-'''
