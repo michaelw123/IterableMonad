@@ -1,12 +1,8 @@
 from monad.IterableMonad import ListMonad, TupleMonad
 
-def f(a:int):
-    return ListMonad([a-1, a, a+1])
 
-
-def g(a:int) :
-    return ListMonad([a, -a])
-
+f = lambda a: ListMonad([a-1, a, a+1])
+g = lambda a: ListMonad([a, -a])
 #left identity
 a = 2
 lhs = ListMonad([a]).flat_map(f)

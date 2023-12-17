@@ -1,10 +1,8 @@
 from monad.IterableMonad import DictMonad
 
-def f(d):
-    return DictMonad( {k: v+1 for k, v in d.items()})
 
-def g(d):
-    return DictMonad( {k: -v for k, v in d.items()})
+f = lambda a: DictMonad( {k: v+1 for k, v in d.items()})
+g = lambda a: DictMonad( {k: -v for k, v in d.items()})
 #left identity
 d = {'a': 1, 'b':2}
 lhs = DictMonad(d).flat_map(f)

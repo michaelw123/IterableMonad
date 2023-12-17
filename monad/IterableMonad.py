@@ -18,7 +18,7 @@ class IterableMonad:
 
 
 class ListMonad(IterableMonad):
-    def  map(self, f:Callable):
+    def map(self, f:Callable):
         return ListMonad((list)(map(f, self.value)))
     def flatten(self):
         return ListMonad(list([item for monad in self.value for item in monad.value]))

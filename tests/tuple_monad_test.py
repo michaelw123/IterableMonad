@@ -1,11 +1,10 @@
 from monad.IterableMonad import TupleMonad
 
-def f(a:int):
-    return TupleMonad((a-1, a, a+1))
-def g(a:int) :
-    return TupleMonad((a, -a))
+
+f = lambda a: TupleMonad((a-1, a, a+1))
+g = lambda a: TupleMonad((a, -a))
 # left identity
-a=2
+a = 2
 lhs = TupleMonad((a,)).flat_map(f)
 rhs = f(a)
 print(lhs == rhs)

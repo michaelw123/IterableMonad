@@ -1,11 +1,7 @@
 from monad.IterableMonad import SetMonad
 
-def f(a:int):
-    return SetMonad({a-1, a, a+1})
-
-
-def g(a:int) :
-    return SetMonad({a, -a})
+f = lambda a: SetMonad({a-1, a, a+1})
+g = lambda a: SetMonad({a, a-1})
 
 #left identity
 a = 2
