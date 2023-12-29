@@ -1,39 +1,36 @@
 from collections.abc import Callable
 
 class IterableMonad:
-    def __init__(self, value: object = None):
-        iter_op = getattr(value, "__iter__", None)
-        if not callable(iter_op):
-            self.value = None
-        else:
-            self.value = value
     def flat_map(self, f:  Callable) -> 'IterableMonad':
-        try:
             return self.map(f).flatten()
-        except:
-            return IterableMonad(None)
+
     def __eq__(self, other):
         if isinstance(other, type(self)):
-            return self.value == other.value
+            return self == other
 
 
-class ListMonad(IterableMonad):
+
+
+class ListMonad(list, IterableMonad):
     def map(self, f:Callable):
-        return ListMonad((list)(map(f, self.value)))
+        return ListMonad((list)(map(f, self)))
     def flatten(self):
-        return ListMonad(list([item for monad in self.value for item in monad.value]))
-class TupleMonad(IterableMonad):
+        return ListMonad(list([item for monad in self for item in monad]))
+class TupleMonad(tuple, IterableMonad):
     def  map(self, f:Callable):
-        return TupleMonad((tuple)(map(f, self.value)))
+        return TupleMonad((tuple)(map(f, self)))
     def flatten(self):
-        return TupleMonad(tuple([item for monad in self.value for item in monad.value]))
-class SetMonad(IterableMonad):
+        return TupleMonad(tuple([item for monad in self for item in monad]))
+class SetMonad(set, IterableMonad):
     def  map(self, f:Callable):
-        return SetMonad((list)(map(f, self.value)))
+        return SetMonad(frozenset(map(f, set(self))))
     def flatten(self):
-        return SetMonad(set([item for monad in self.value for item in monad.value]))
-class DictMonad(IterableMonad):
+        return SetMonad(set([item for monad in self for item in monad]))
+    def __hash__(self):
+        return 1
+
+class DictMonad(dict, IterableMonad):
     def  map(self, f:Callable):
-        return DictMonad([f({k:v}) for k, v in self.value.items()])
+        return DictMonad({k:f({k:v}) for k, v in self.items()})
     def flatten(self):
-        return DictMonad({k: v for monad in self.value for k, v in monad.value.items()})
+        return DictMonad({k: v for k,x  in self.items() for _, v in x.items()})

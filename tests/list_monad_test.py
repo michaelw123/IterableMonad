@@ -5,7 +5,7 @@ f = lambda a: ListMonad([a-1, a, a+1])
 g = lambda a: ListMonad([a, -a])
 #left identity
 a = 2
-lhs = ListMonad([a]).flat_map(f)
+lhs = ListMonad([1,2]).flat_map(f)
 rhs = f(a)
 print(lhs == rhs)
 # right identity
