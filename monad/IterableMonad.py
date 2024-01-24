@@ -25,7 +25,7 @@ class SetMonad(set, IterableMonad):
         return SetMonad([item for monad in map(f, self) for item in monad])
 
 class DictMonad(dict, IterableMonad):
-    def  map(self, f:Callable):
+    def map(self, f:Callable):
         return DictMonad({k:f({k:v}) for k, v in self.items()})
     def flatten(self):
         return DictMonad({k: v for k,x  in self.items() for _, v in x.items()})
